@@ -1,5 +1,5 @@
 #include "image_geometry/pinhole_camera_model.h"
-//#include <sensor_msgs/distortion_models.h>
+#include <sensor_msgs/distortion_models.hpp>
 #include <boost/make_shared.hpp>
 
 namespace image_geometry {
@@ -125,10 +125,8 @@ bool PinholeCameraModel::fromCameraInfo(const sensor_msgs::msg::CameraInfo& msg)
   cache_->rectified_roi_dirty = reduced_dirty;
 
   // Figure out how to handle the distortion
-  //if (cam_info_.distortion_model == sensor_msgs::msg::distortion_models::PLUMB_BOB ||
-  //    cam_info_.distortion_model == sensor_msgs::msg::distortion_models::RATIONAL_POLYNOMIAL) {
-  if (cam_info_.distortion_model == "plumb_bob" ||
-      cam_info_.distortion_model == "rational_polynomial") {
+  if (cam_info_.distortion_model == sensor_msgs::msg::distortion_models::PLUMB_BOB ||
+      cam_info_.distortion_model == sensor_msgs::msg::distortion_models::RATIONAL_POLYNOMIAL) {
     // If any distortion coefficient is non-zero, then need to apply the distortion
     cache_->distortion_state = NONE;
     for (size_t i = 0; i < cam_info_.d.size(); ++i)
