@@ -60,7 +60,7 @@ bool update(const T& new_val, T& my_val)
 template<typename MatT>
 bool updateMat(const MatT& new_mat, MatT& my_mat, cv::Mat_<double>& cv_mat, int rows, int cols)
 {
-  if ((my_mat == new_mat) && (my_mat.size() == cv_mat.rows*cv_mat.cols))
+  if ((my_mat == new_mat) && (my_mat.size() == (unsigned)(cv_mat.rows*cv_mat.cols)))
     return false;
   my_mat = new_mat;
   // D may be empty if camera is uncalibrated or distortion model is non-standard
@@ -125,8 +125,8 @@ bool PinholeCameraModel::fromCameraInfo(const sensor_msgs::msg::CameraInfo& msg)
   cache_->rectified_roi_dirty = reduced_dirty;
 
   // Figure out how to handle the distortion
-  if (cam_info_.distortion_model == sensor_msgs::msg::distortion_models::PLUMB_BOB ||
-      cam_info_.distortion_model == sensor_msgs::msg::distortion_models::RATIONAL_POLYNOMIAL) {
+  if (cam_info_.distortion_model == sensor_msgs::distortion_models::PLUMB_BOB ||
+      cam_info_.distortion_model == sensor_msgs::distortion_models::RATIONAL_POLYNOMIAL) {
     // If any distortion coefficient is non-zero, then need to apply the distortion
     cache_->distortion_state = NONE;
     for (size_t i = 0; i < cam_info_.d.size(); ++i)

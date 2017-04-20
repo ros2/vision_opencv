@@ -35,7 +35,7 @@ install(TARGETS ${PROJECT_NAME}
 
 # add tests
 if(BUILD_TESTING)
-#  add_subdirectory(test)
+  add_subdirectory(test)
 endif()
 
 ament_export_libraries(${PROJECT_NAME})
