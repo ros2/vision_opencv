@@ -5,7 +5,6 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/calib3d/calib3d.hpp>
-#include <boost/shared_ptr.hpp>
 #include <stdexcept>
 
 namespace image_geometry {
@@ -271,7 +270,7 @@ protected:
 
   // Use PIMPL here so we can change internals in patch updates if needed
   struct Cache;
-  boost::shared_ptr<Cache> cache_; // Holds cached data for internal use
+  std::shared_ptr<Cache> cache_; // Holds cached data for internal use
 
   void initRectificationMaps() const;
 

@@ -1,6 +1,5 @@
 #include "image_geometry/pinhole_camera_model.h"
 #include <sensor_msgs/distortion_models.hpp>
-#include <boost/make_shared.hpp>
 
 namespace image_geometry {
 
@@ -56,7 +55,7 @@ bool update(const T& new_val, T& my_val)
   return true;
 }
 
-// For boost::array, std::vector
+// For std::array, std::vector
 template<typename MatT>
 bool updateMat(const MatT& new_mat, MatT& my_mat, cv::Mat_<double>& cv_mat, int rows, int cols)
 {
@@ -83,7 +82,7 @@ bool PinholeCameraModel::fromCameraInfo(const sensor_msgs::msg::CameraInfo& msg)
 {
   // Create our repository of cached data (rectification maps, etc.)
   if (!cache_)
-    cache_ = boost::make_shared<Cache>();
+    cache_ = std::make_shared<Cache>();
   
   // Binning = 0 is considered the same as binning = 1 (no binning).
   uint32_t binning_x = msg.binning_x ? msg.binning_x : 1;
