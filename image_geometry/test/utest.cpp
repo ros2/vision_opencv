@@ -88,7 +88,7 @@ TEST_F(PinholeTest, projectPoint)
   const size_t step = 10;
   for (size_t row = 0; row <= cam_info_.height; row += step) {
     for (size_t col = 0; col <= cam_info_.width; col += step) {
-      cv::Point2d uv(row, col), uv_back;
+      cv::Point2d uv(static_cast<double>(row), static_cast<double>(col)), uv_back;
       cv::Point3d xyz = model_.projectPixelTo3dRay(uv);
       uv_back = model_.project3dToPixel(xyz);
       // Measured max error at 1.13687e-13
@@ -161,7 +161,7 @@ TEST_F(PinholeTest, getDeltas)
 
 TEST_F(PinholeTest, initialization)
 {
-  EXPECT_EQ(model_.initialized(), 1);
+  EXPECT_EQ(model_.initialized(), true);
   EXPECT_EQ(model_.projectionMatrix().rows, 3);
   EXPECT_EQ(model_.projectionMatrix().cols, 4);
 }
@@ -204,14 +204,18 @@ TEST_F(PinholeTest, rectifyIfCalibrated)
   for (size_t y = 0; y <= cam_info_.height; y += cam_info_.height/10)
   {
     cv::line(distorted_image,
-             cv::Point(0, y), cv::Point(cam_info_.width, y),
+             cv::Point(0UL, static_cast<uint32_t>(y)),
+             cv::Point(static_cast<uint32_t>(cam_info_.width),
+                       static_cast<uint32_t>(y)),
              color, type, thickness);
   }
   for (size_t x = 0; x <= cam_info_.width; x += cam_info_.width/10)
   {
     // draw the lines thick so the prorportion of interpolation error is reduced
     cv::line(distorted_image,
-             cv::Point(x, 0), cv::Point(x, cam_info_.height),
+             cv::Point(static_cast<uint32_t>(x), 0UL),
+             cv::Point(static_cast<uint32_t>(x),
+                       static_cast<uint32_t>(cam_info_.height)),
              color, type, thickness);
   }
 

@@ -74,7 +74,7 @@ bool update(const T& new_val, T& my_val)
 
 // For std::array, std::vector
 template<typename MatT>
-bool updateMat(const MatT& new_mat, MatT& my_mat, cv::Mat_<double>& cv_mat, int rows, int cols)
+bool updateMat(const MatT& new_mat, MatT& my_mat, cv::Mat_<double>& cv_mat, size_t rows, size_t cols)
 {
   if ((my_mat == new_mat) && (my_mat.size() == (unsigned)(cv_mat.rows*cv_mat.cols)))
     return false;
@@ -121,7 +121,7 @@ bool PinholeCameraModel::fromCameraInfo(const sensor_msgs::msg::CameraInfo& msg)
   full_dirty |= update(msg.height, cam_info_.height);
   full_dirty |= update(msg.width,  cam_info_.width);
   full_dirty |= update(msg.distortion_model, cam_info_.distortion_model);
-  full_dirty |= updateMat(msg.d, cam_info_.d, D_, 1, msg.d.size());
+  full_dirty |= updateMat(msg.d, cam_info_.d, D_, 1UL, msg.d.size());
   full_dirty |= updateMat(msg.k, cam_info_.k, K_full_);
   full_dirty |= updateMat(msg.r, cam_info_.r, R_);
   full_dirty |= updateMat(msg.p, cam_info_.p, P_full_);
@@ -394,10 +394,10 @@ cv::Rect PinholeCameraModel::rectifyRoi(const cv::Rect& roi_raw) const
                                                  roi_raw.y + roi_raw.height));
   cv::Point2d rect_bl = rectifyPoint(cv::Point2d(roi_raw.x, roi_raw.y + roi_raw.height));
 
-  cv::Point roi_tl(std::ceil (std::min(rect_tl.x, rect_bl.x)),
-                   std::ceil (std::min(rect_tl.y, rect_tr.y)));
-  cv::Point roi_br(std::floor(std::max(rect_tr.x, rect_br.x)),
-                   std::floor(std::max(rect_bl.y, rect_br.y)));
+  cv::Point roi_tl(static_cast<uint32_t>(std::ceil (std::min(rect_tl.x, rect_bl.x))),
+                   static_cast<uint32_t>(std::ceil (std::min(rect_tl.y, rect_tr.y))));
+  cv::Point roi_br(static_cast<uint32_t>(std::floor(std::max(rect_tr.x, rect_br.x))),
+                   static_cast<uint32_t>(std::floor(std::max(rect_bl.y, rect_br.y))));
 
   return cv::Rect(roi_tl.x, roi_tl.y, roi_br.x - roi_tl.x, roi_br.y - roi_tl.y);
 }
@@ -415,10 +415,10 @@ cv::Rect PinholeCameraModel::unrectifyRoi(const cv::Rect& roi_rect) const
                                                   roi_rect.y + roi_rect.height));
   cv::Point2d raw_bl = unrectifyPoint(cv::Point2d(roi_rect.x, roi_rect.y + roi_rect.height));
 
-  cv::Point roi_tl(std::floor(std::min(raw_tl.x, raw_bl.x)),
-                   std::floor(std::min(raw_tl.y, raw_tr.y)));
-  cv::Point roi_br(std::ceil (std::max(raw_tr.x, raw_br.x)),
-                   std::ceil (std::max(raw_bl.y, raw_br.y)));
+  cv::Point roi_tl(static_cast<uint32_t>(std::floor(std::min(raw_tl.x, raw_bl.x))),
+                   static_cast<uint32_t>(std::floor(std::min(raw_tl.y, raw_tr.y))));
+  cv::Point roi_br(static_cast<uint32_t>(std::ceil (std::max(raw_tr.x, raw_br.x))),
+                   static_cast<uint32_t>(std::ceil (std::max(raw_bl.y, raw_br.y))));
 
   return cv::Rect(roi_tl.x, roi_tl.y, roi_br.x - roi_tl.x, roi_br.y - roi_tl.y);
 }
