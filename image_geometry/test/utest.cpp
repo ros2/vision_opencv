@@ -133,7 +133,7 @@ TEST_F(PinholeTest, rectifyPoint)
   const size_t border = 65; // Expect bad accuracy far from the center of the image.
   for (size_t row = border; row <= cam_info_.height - border; row += step) {
     for (size_t col = border; col <= cam_info_.width - border; col += step) {
-      cv::Point2d uv_raw(row, col), uv_rect, uv_unrect;
+      cv::Point2d uv_raw(static_cast<double>(row), static_cast<double>(col)), uv_rect, uv_unrect;
       uv_rect = model_.rectifyPoint(uv_raw);
       uv_unrect = model_.unrectifyPoint(uv_rect);
       // Check that we're at least within a pixel...

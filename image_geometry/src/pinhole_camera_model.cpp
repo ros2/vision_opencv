@@ -74,7 +74,7 @@ bool update(const T& new_val, T& my_val)
 
 // For std::array, std::vector
 template<typename MatT>
-bool updateMat(const MatT& new_mat, MatT& my_mat, cv::Mat_<double>& cv_mat, size_t rows, size_t cols)
+bool updateMat(const MatT& new_mat, MatT& my_mat, cv::Mat_<double>& cv_mat, int rows, int cols)
 {
   if ((my_mat == new_mat) && (my_mat.size() == (unsigned)(cv_mat.rows*cv_mat.cols)))
     return false;
@@ -121,7 +121,7 @@ bool PinholeCameraModel::fromCameraInfo(const sensor_msgs::msg::CameraInfo& msg)
   full_dirty |= update(msg.height, cam_info_.height);
   full_dirty |= update(msg.width,  cam_info_.width);
   full_dirty |= update(msg.distortion_model, cam_info_.distortion_model);
-  full_dirty |= updateMat(msg.d, cam_info_.d, D_, 1UL, msg.d.size());
+  full_dirty |= updateMat(msg.d, cam_info_.d, D_, 1, static_cast<int>(msg.d.size()));
   full_dirty |= updateMat(msg.k, cam_info_.k, K_full_);
   full_dirty |= updateMat(msg.r, cam_info_.r, R_);
   full_dirty |= updateMat(msg.p, cam_info_.p, P_full_);
