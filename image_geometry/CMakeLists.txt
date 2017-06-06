@@ -32,6 +32,12 @@ install(TARGETS ${PROJECT_NAME}
         LIBRARY DESTINATION lib
 )
 
+# image_geometry_lib_dir is passed as APPEND_LIBRARY_DIRS for each ament_add_gtest call so
+# the project library that they link against is on the library path.
+# This is especially important on Windows.
+# This is overwritten each loop, but which one it points to doesn't really matter.
+set(image_geometry_lib_dir "$<TARGET_FILE_DIR:${PROJECT_NAME}>")
+
 # add tests
 if(BUILD_TESTING)
   add_subdirectory(test)
