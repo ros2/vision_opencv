@@ -26,6 +26,10 @@ install(DIRECTORY include/${PROJECT_NAME}/
         DESTINATION include/${PROJECT_NAME}
 )
 
+# Causes the visibility macros to use dllexport rather than dllimport,
+# which is appropriate when building the dll but not consuming it.
+target_compile_definitions(${PROJECT_NAME} PRIVATE "IMAGE_GEOMETRY_BUILDING_DLL")
+
 install(TARGETS ${PROJECT_NAME}
         RUNTIME DESTINATION bin
         ARCHIVE DESTINATION lib
