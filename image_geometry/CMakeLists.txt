@@ -10,12 +10,12 @@ endif()
 find_package(OpenCV REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
-include_directories(include
-                    ${OpenCV_INCLUDE_DIRS}
-)
+include_directories(include)
 
 # add a library
-add_library(${PROJECT_NAME} src/pinhole_camera_model.cpp src/stereo_camera_model.cpp)
+add_library(${PROJECT_NAME} SHARED
+  src/pinhole_camera_model.cpp src/stereo_camera_model.cpp
+)
 target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBRARIES})
 ament_target_dependencies(${PROJECT_NAME}
   "OpenCV"
