@@ -316,6 +316,7 @@ protected:
   struct Cache;
   std::shared_ptr<Cache> cache_; // Holds cached data for internal use
 
+  IMAGE_GEOMETRY_PUBLIC
   void initRectificationMaps() const;
 
   friend class StereoCameraModel;
@@ -323,54 +324,75 @@ protected:
 
 
 /* Trivial inline functions */
+IMAGE_GEOMETRY_PUBLIC
 inline std::string PinholeCameraModel::tfFrame() const
 {
   assert( initialized() );
   return cam_info_.header.frame_id;
 }
 
+IMAGE_GEOMETRY_PUBLIC
 inline builtin_interfaces::msg::Time PinholeCameraModel::stamp() const
 {
   assert( initialized() );
   return cam_info_.header.stamp;
 }
 
+IMAGE_GEOMETRY_PUBLIC
 inline const sensor_msgs::msg::CameraInfo& PinholeCameraModel::cameraInfo() const  { return cam_info_; }
+IMAGE_GEOMETRY_PUBLIC
 inline const cv::Matx33d& PinholeCameraModel::intrinsicMatrix() const  { return K_; }
+IMAGE_GEOMETRY_PUBLIC
 inline const cv::Mat_<double>& PinholeCameraModel::distortionCoeffs() const { return D_; }
+IMAGE_GEOMETRY_PUBLIC
 inline const cv::Matx33d& PinholeCameraModel::rotationMatrix() const   { return R_; }
+IMAGE_GEOMETRY_PUBLIC
 inline const cv::Matx34d& PinholeCameraModel::projectionMatrix() const { return P_; }
+IMAGE_GEOMETRY_PUBLIC
 inline const cv::Matx33d& PinholeCameraModel::fullIntrinsicMatrix() const  { return K_full_; }
+IMAGE_GEOMETRY_PUBLIC
 inline const cv::Matx34d& PinholeCameraModel::fullProjectionMatrix() const { return P_full_; }
 
+IMAGE_GEOMETRY_PUBLIC
 inline double PinholeCameraModel::fx() const { return P_(0,0); }
+IMAGE_GEOMETRY_PUBLIC
 inline double PinholeCameraModel::fy() const { return P_(1,1); }
+IMAGE_GEOMETRY_PUBLIC
 inline double PinholeCameraModel::cx() const { return P_(0,2); }
+IMAGE_GEOMETRY_PUBLIC
 inline double PinholeCameraModel::cy() const { return P_(1,2); }
+IMAGE_GEOMETRY_PUBLIC
 inline double PinholeCameraModel::Tx() const { return P_(0,3); }
+IMAGE_GEOMETRY_PUBLIC
 inline double PinholeCameraModel::Ty() const { return P_(1,3); }
 
+IMAGE_GEOMETRY_PUBLIC
 inline uint32_t PinholeCameraModel::binningX() const { return cam_info_.binning_x; }
+IMAGE_GEOMETRY_PUBLIC
 inline uint32_t PinholeCameraModel::binningY() const { return cam_info_.binning_y; }
 
+IMAGE_GEOMETRY_PUBLIC
 inline double PinholeCameraModel::getDeltaU(double deltaX, double Z) const
 {
   assert( initialized() );
   return fx() * deltaX / Z;
 }
 
+IMAGE_GEOMETRY_PUBLIC
 inline double PinholeCameraModel::getDeltaV(double deltaY, double Z) const
 {
   assert( initialized() );
   return fy() * deltaY / Z;
 }
 
+IMAGE_GEOMETRY_PUBLIC
 inline double PinholeCameraModel::getDeltaX(double deltaU, double Z) const
 {
   assert( initialized() );
   return Z * deltaU / fx();
 }
 
+IMAGE_GEOMETRY_PUBLIC
 inline double PinholeCameraModel::getDeltaY(double deltaV, double Z) const
 {
   assert( initialized() );

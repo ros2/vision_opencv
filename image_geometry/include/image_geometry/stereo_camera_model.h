@@ -111,30 +111,38 @@ protected:
   PinholeCameraModel left_, right_;
   cv::Matx44d Q_;
 
+  IMAGE_GEOMETRY_PUBLIC
   void updateQ();
 };
 
 
 /* Trivial inline functions */
+IMAGE_GEOMETRY_PUBLIC
 inline const PinholeCameraModel& StereoCameraModel::left() const  { return left_; }
+IMAGE_GEOMETRY_PUBLIC
 inline const PinholeCameraModel& StereoCameraModel::right() const { return right_; }
 
+IMAGE_GEOMETRY_PUBLIC
 inline std::string StereoCameraModel::tfFrame() const { return left_.tfFrame(); }
 
+IMAGE_GEOMETRY_PUBLIC
 inline const cv::Matx44d& StereoCameraModel::reprojectionMatrix() const { return Q_; }
 
+IMAGE_GEOMETRY_PUBLIC
 inline double StereoCameraModel::baseline() const
 {
   /// @todo Currently assuming horizontal baseline
   return -right_.Tx() / right_.fx();
 }
 
+IMAGE_GEOMETRY_PUBLIC
 inline double StereoCameraModel::getZ(double disparity) const
 {
   assert( initialized() );
   return -right_.Tx() / (disparity - (left().cx() - right().cx()));
 }
 
+IMAGE_GEOMETRY_PUBLIC
 inline double StereoCameraModel::getDisparity(double Z) const
 {
   assert( initialized() );
