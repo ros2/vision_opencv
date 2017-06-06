@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(image_geometry)
 
-find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_ros REQUIRED)
 
 if(NOT WIN32)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra")
@@ -13,7 +13,7 @@ find_package(sensor_msgs REQUIRED)
 include_directories(include)
 
 # add a library
-add_library(${PROJECT_NAME} SHARED
+add_library(${PROJECT_NAME}
   src/pinhole_camera_model.cpp src/stereo_camera_model.cpp
 )
 target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBRARIES})
